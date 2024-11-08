@@ -3,6 +3,8 @@
 namespace App\Views\Client\Layouts;
 
 use App\Helpers\AuthHelper;
+use App\Helpers\NotificationHelper;
+
 use App\Views\BaseView;
 
 class Header extends BaseView
@@ -66,6 +68,11 @@ class Header extends BaseView
                     <li class="nav-item">
                         <a class="nav-link" href="/products">Sản phẩm</a>
                     </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Liên hệ</a>
+                    </li>
                   
                 
                 </ul>
@@ -77,6 +84,7 @@ class Header extends BaseView
                 <li class="nav-item">
                         <a class="nav-link" href="/cart">Giỏ hàng</a>
                     </li>
+                    
                 <?php if ($is_login) : ?>
                         <li class="nav-item">
                             <div class="dropdown">
