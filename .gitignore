@@ -8,4 +8,10 @@ composer.lock
 ### Ampps ###
 cgi-bin
 
+node_moduels/
+vendor/
+composer-lock.json
+package-lock.json
+.idea/
+.vscode/
 .env
