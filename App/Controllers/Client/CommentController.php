@@ -12,7 +12,6 @@ class CommentController
 
     public static function store()
     {
-        // validation các trường dữ liệu
         $is_valid = CommentValidation::createClient();
         if (!$is_valid) {
             NotificationHelper::error('store', 'Thêm bình luận thất bại');

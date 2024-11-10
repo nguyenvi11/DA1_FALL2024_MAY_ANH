@@ -33,18 +33,19 @@ class Header extends BaseView
     <link rel="stylesheet" href="<?= APP_URL ?>/public/assets/client/css/style.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/public/assets/client/css/bbootstrap.min.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/public/assets/client/css/tiny-slider.css">
-    
-    <style>
-        /* Đặt thanh điều hướng trong suốt trên nền banner */
-        .navbar.bg-transparent {
-            background-color: rgba(0, 0, 0, 0.5) !important; /* Nền trong suốt */
-        }
 
-        .navbar .nav-link,
-        .navbar .navbar-brand {
-            color: #fff !important; /* Màu trắng cho văn bản */
-        }
-        
+    <style>
+    /* Đặt thanh điều hướng trong suốt trên nền banner */
+    .navbar.bg-transparent {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        /* Nền trong suốt */
+    }
+
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+        color: #fff !important;
+        /* Màu trắng cho văn bản */
+    }
     </style>
 </head>
 
@@ -57,7 +58,8 @@ class Header extends BaseView
                 <img src="../public/assets/client/images/logo_camera.png" height="70px" width="100px" alt="Logo">
                 Camera<span>.</span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsFurni"
+                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarsFurni">
@@ -68,44 +70,49 @@ class Header extends BaseView
                     <li class="nav-item">
                         <a class="nav-link" href="/products">Sản phẩm</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/blog">Bài Viết</a>
+                    </li>
 
 
                     <li class="nav-item">
                         <a class="nav-link" href="/contact">Liên hệ</a>
                     </li>
-                  
-                
+
+
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
                 </form>
                 <ul class="navbar-nav ml-3">
-                <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="/cart">Giỏ hàng</a>
                     </li>
-                    
-                <?php if ($is_login) : ?>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="btn btn-secondary dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Tài khoản
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="/users/<?= $_SESSION['user']['id'] ?>"><?= $_SESSION['user']['username'] ?></a>
-                                    <a class="dropdown-item" href="/logout">Đăng xuất</a>
-                                </div>
+
+                    <?php if ($is_login) : ?>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle nav-link" href="#" role="button"
+                                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Tài khoản
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item"
+                                    href="/users/<?= $_SESSION['user']['id'] ?>"><?= $_SESSION['user']['username'] ?></a>
+                                <a class="dropdown-item" href="/logout">Đăng xuất</a>
                             </div>
-                        </li>
+                        </div>
+                    </li>
                     <?php else : ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Đăng nhập</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/register">Đăng ký</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Đăng nhập</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Đăng ký</a>
+                    </li>
                     <?php endif; ?>
-                   
+
                 </ul>
             </div>
         </div>
@@ -113,25 +120,27 @@ class Header extends BaseView
 
     <!-- Hero section -->
     <div class="hero">
-    <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-lg-5">
-                <div class="intro-excerpt">
-                    <h1>Studio Bán <span class="d-block">Camera Hiện Đại</span></h1>
-                    <p class="mb-4">Mang lại giá trị và hỗ trợ hiệu quả. Kết hợp các yếu tố linh hoạt với tính thẩm mỹ. Định hướng mục tiêu và tối ưu hóa trải nghiệm người dùng.</p>
-                    <p><a href="" class="btn btn-secondary me-2">Mua Ngay</a><a href="#" class="btn btn-white-outline">Khám Phá</a></p>
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-lg-5">
+                    <div class="intro-excerpt">
+                        <h1>Studio Bán <span class="d-block">Camera Hiện Đại</span></h1>
+                        <p class="mb-4">Mang lại giá trị và hỗ trợ hiệu quả. Kết hợp các yếu tố linh hoạt với tính thẩm
+                            mỹ. Định hướng mục tiêu và tối ưu hóa trải nghiệm người dùng.</p>
+                        <p><a href="" class="btn btn-secondary me-2">Mua Ngay</a><a href="#"
+                                class="btn btn-white-outline">Khám Phá</a></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-                <div class="col-lg-7">
-                
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-7">
+
     </div>
-<?php
+    </div>
+    </div>
+    </div>
+    <?php
     } // Kết thúc hàm render
 }

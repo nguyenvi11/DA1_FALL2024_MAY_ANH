@@ -23,6 +23,9 @@ Route::get('/products', 'App\Controllers\Client\ProductController@index');
 Route::get('/products/{id}', 'App\Controllers\Client\ProductController@detail');
 Route::get('/products/categories/{id}', 'App\Controllers\Client\ProductController@getProductByCategory');
 
+
+Route::get('/blog', 'App\Controllers\Client\HomeController@blogController');
+
 Route::get('/contact', 'App\Controllers\Client\ContactController@index');
 Route::post('/send-email', 'App\Controllers\Client\ContactController@sendEmail');
 
@@ -151,4 +154,3 @@ Route::delete('/admin/users/{id}', 'App\Controllers\Admin\UserController@delete'
 
 
 Route::dispatch($_SERVER['REQUEST_URI']);
-
