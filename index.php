@@ -3,7 +3,7 @@ session_start();
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
-ini_set('log_errors', TRUE); 
+ini_set('log_errors', TRUE);
 ini_set('error_log', './logs/php/php-errors.log');
 
 use App\Route;
@@ -25,6 +25,8 @@ Route::get('/products/categories/{id}', 'App\Controllers\Client\ProductControlle
 
 
 Route::get('/blog', 'App\Controllers\Client\HomeController@blogController');
+
+// Email
 
 Route::get('/contact', 'App\Controllers\Client\ContactController@index');
 Route::post('/send-email', 'App\Controllers\Client\ContactController@sendEmail');
