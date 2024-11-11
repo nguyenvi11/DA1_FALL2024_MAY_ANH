@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 ini_set('log_errors', TRUE); 
 ini_set('error_log', './logs/php/php-errors.log');
 
+
+// route
 use App\Route;
 
 require_once 'vendor/autoload.php';
