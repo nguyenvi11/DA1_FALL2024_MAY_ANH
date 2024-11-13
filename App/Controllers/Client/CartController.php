@@ -16,6 +16,8 @@ class CartController
     // hiển thị danh sách
     public static function index()
     {
+        ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
+
         // echo "<pre>";
         // var_dump($_COOKIE['cart']);
         if (isset($_COOKIE['cart'])) {
@@ -36,6 +38,8 @@ class CartController
                     $cart_data[$key]['data'] = $result;
 
                     // var_dump($cart_data);
+                    
+
                 }
 
                 // echo "<pre>"; 
@@ -58,9 +62,13 @@ class CartController
             header('location: /products');
             // var_dump($_SESSION['error']);
         }
+        ob_end_flush();
+
     }
     public static function add()
     {
+        ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
+
         $product = new Product();
         Header::render();
         Footer::render();
@@ -115,9 +123,13 @@ class CartController
         // } else {
         //     echo 'Trong';
         // }
+        ob_end_flush();
+
     }
     public static function update()
     {
+        ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
+
         $product_id = $_POST['id'];
         $quantity = $_POST['quantity'];
 
@@ -161,19 +173,27 @@ class CartController
 
         // sau khi lưu cookie thì phải chuyển trang/ load lại thì mới ăn cookie
         header('location: /cart');
+        ob_end_flush();
+
     }
     public static function deleteAll()
     {
+        ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
+
         if (isset($_COOKIE['cart'])) {
             setcookie("cart", "", time() -  3600 * 24 * 30 * 12, '/');
         }
         NotificationHelper::success('cart', 'Đã xoá giỏ hàng');
 
         header('location: /products');
+        ob_end_flush();
+
     }
     public static function deleteItem()
 
     {
+        ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
+
         if (isset($_COOKIE['cart'])) {
             $cookie_data = $_COOKIE['cart'];
             $cart_data = json_decode($cookie_data, true);
@@ -189,9 +209,13 @@ class CartController
 
             header('location: /cart');
         }
+        ob_end_flush();
+
     }
     public static function checkout()
     {
+        ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
+
         $is_login = AuthHelper::checkLogin();
         if (isset($_COOKIE['cart']) && $is_login) {
 
@@ -235,6 +259,8 @@ class CartController
 
             header('location: /');
         }
+        ob_end_flush();
+
 
     }
 
