@@ -109,4 +109,9 @@ AND categories.status=" . self::STATUS_ENABLE . " AND products.id=?";
         }
     }
     
+
+
+    
 }
+
+

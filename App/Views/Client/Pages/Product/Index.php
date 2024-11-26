@@ -22,6 +22,7 @@ class Index extends BaseView
                         <?php
                         if (count($data) && count($data['products'])) :
                         ?>
+                        <a href="">So Sánh Sản Phẩm</a>
                             <h1 class="text-center mb-3">Sản phẩm</h1>
                             <div class="row">
                                 <?php
