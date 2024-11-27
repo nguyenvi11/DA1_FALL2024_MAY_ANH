@@ -81,10 +81,12 @@ class Header extends BaseView
 
 
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <form class="form-inline my-2 my-lg-0" method="GET" action="/products/search">
+                    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search"
+                        aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
                 </form>
+
                 <ul class="navbar-nav ml-3">
                     <li class="nav-item">
                         <a class="nav-link" href="/cart">Giỏ hàng</a>

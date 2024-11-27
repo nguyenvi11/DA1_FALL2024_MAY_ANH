@@ -14,21 +14,30 @@ use App\Views\Admin\Pages\Product\Index;
 
 class ProductController
 {
-    // hiển thị danh sách
-    public static function index()
-    {
-        // khởi tạo đối tượng model
-
-        $product = new Product();
-        $data = $product->getAllProductJoinCategory();
-
-        Header::render();
-        Notification::render();
-        NotificationHelper::unset();
-        // hiển thị giao diện danh sách
-        Index::render($data);
-        Footer::render();
-    }
+     // Hiển thị danh sách sản phẩm và tìm kiếm
+     public static function index()
+     {
+         // Kiểm tra nếu có tìm kiếm từ người dùng
+         $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+ 
+         // Khởi tạo đối tượng model
+         $product = new Product();
+ 
+         // Nếu có tìm kiếm, gọi phương thức tìm kiếm sản phẩm
+         if ($searchTerm) {
+             $data = $product->searchProductByName($searchTerm);
+         } else {
+             // Nếu không tìm kiếm, lấy tất cả sản phẩm
+             $data = $product->getAllProductJoinCategory();
+         }
+ 
+         // Render header, notification, footer và danh sách sản phẩm
+         Header::render();
+         Notification::render();
+         NotificationHelper::unset();
+         Index::render($data, $searchTerm); // Gửi dữ liệu và từ khóa tìm kiếm
+         Footer::render();
+     }
 
 
     // hiển thị giao diện form thêm
@@ -300,4 +309,5 @@ class ProductController
 
         header('location: /admin/products');
     }
+
 }

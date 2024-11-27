@@ -108,5 +108,60 @@ AND categories.status=" . self::STATUS_ENABLE . " AND products.id=?";
             return $result;
         }
     }
+
+    // Tìm sản phẩm theo tên
+    public function searchProductByName($name)
+    {
+        $sql = "SELECT products.*, categories.name AS category_name
+                    FROM products
+                    INNER JOIN categories ON products.category_id = categories.id
+                    WHERE products.name LIKE ? AND products.status = 1
+                    AND categories.status = 1";
+
+        $conn = $this->_conn->MySQLi();
+        $stmt = $conn->prepare($sql);
+
+        $searchTerm = "%" . $name . "%";
+        $stmt->bind_param('s', $searchTerm);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // public function getProductImages($productId)
+    // {
+    //     $sql = "SELECT * FROM product_images WHERE product_id = ? ORDER BY sort_order ASC";
+    //     $stmt = $this->_conn->MySQLi()->prepare($sql);
+    //     $stmt->bind_param('i', $productId);
+    //     $stmt->execute();
+    //     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    // }
+
+    public function getAllProductByStatusAndSort($sortBy = 'price', $order = 'asc')
+    {
+        // Sanitize inputs to prevent SQL injection
+        $validSortColumns = ['price', 'name']; // Allowed sort columns
+        $validOrderDirections = ['asc', 'desc']; // Allowed order directions
+
+        // If the input is invalid, default to 'price' and 'asc'
+        if (!in_array($sortBy, $validSortColumns)) {
+            $sortBy = 'price';
+        }
+        if (!in_array($order, $validOrderDirections)) {
+            $order = 'asc';
+        }
+
+        // SQL query with dynamic sorting
+        $sql = "SELECT * FROM products 
+                WHERE status = 1 
+                ORDER BY $sortBy $order";
+
+        $conn = $this->_conn->MySQLi();
+        $result = $conn->query($sql);
+        
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    
     
 }

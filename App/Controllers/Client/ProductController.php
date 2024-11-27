@@ -20,16 +20,48 @@ class ProductController
     public static function index()
     {
         $product = new Product();
-        $data['products'] = $product->getAllProductByStatus();
-
+    
+        // Lấy các tham số sort_by và order từ GET request
+        $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'name'; // Mặc định là sắp xếp theo tên
+        $order = isset($_GET['order']) ? $_GET['order'] : 'asc'; // Mặc định là tăng dần
+    
+        // Lấy tất cả sản phẩm đã kích hoạt và sắp xếp theo các tiêu chí
+        $data['products'] = $product->getAllProductByStatusAndSort($sort_by, $order);
+    
+        // Lấy danh sách các danh mục
         $category = new Category();
         $data['categories'] = $category->getAllCategoryByStatus();
+    
         Header::render();
         Notification::render();
         NotificationHelper::unset();
         Index::render($data);
         Footer::render();
     }
+    
+
+    // Tìm kiếm sản phẩm
+    public static function search()
+    {
+        if (isset($_GET['query']) && !empty($_GET['query'])) {
+            $query = $_GET['query'];
+            $product = new Product();
+            $data['products'] = $product->searchProductByName($query);
+
+            $category = new Category();
+            $data['categories'] = $category->getAllCategoryByStatus();
+
+            Header::render();
+            Notification::render();
+            NotificationHelper::unset();
+            Index::render($data);
+            Footer::render();
+        } else {
+            // Nếu không có query thì hiển thị tất cả sản phẩm
+            self::index();
+        }
+    }
+
     public static function detail($id)
     {
         $product = new Product();

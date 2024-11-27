@@ -3,7 +3,7 @@ session_start();
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
-ini_set('log_errors', TRUE);
+ini_set('log_errors', TRUE); 
 ini_set('error_log', './logs/php/php-errors.log');
 
 use App\Route;
@@ -20,19 +20,16 @@ require_once 'config.php';
 // *** Client
 Route::get('/', 'App\Controllers\Client\HomeController@index');
 Route::get('/products', 'App\Controllers\Client\ProductController@index');
+
+Route::get('/products/search', 'App\Controllers\Client\ProductController@search');  // Route cho tìm kiếm
 Route::get('/products/{id}', 'App\Controllers\Client\ProductController@detail');
 Route::get('/products/categories/{id}', 'App\Controllers\Client\ProductController@getProductByCategory');
-
-
-Route::get('/blog', 'App\Controllers\Client\HomeController@blogController');
-
-// Email
 
 Route::get('/contact', 'App\Controllers\Client\ContactController@index');
 Route::post('/send-email', 'App\Controllers\Client\ContactController@sendEmail');
 
 
-
+ 
 Route::get('/cart', 'App\Controllers\Client\CartController@index');
 Route::post('/cart/add', 'App\Controllers\Client\CartController@add');
 Route::put('/cart/update', 'App\Controllers\Client\CartController@update');
@@ -111,6 +108,9 @@ Route::put('/admin/products/{id}', 'App\Controllers\Admin\ProductController@upda
 // DELETE /products/{id} (delete sản phẩm với id cụ thể)
 Route::delete('/admin/products/{id}', 'App\Controllers\Admin\ProductController@delete');
 
+// GET /products/search (tìm kiếm sản phẩm)
+
+Route::get('/admin/products', 'App\Controllers\Admin\ProductController@index');
 
 // *** Comment
 // GET /comments (lấy danh sách bình luận)
