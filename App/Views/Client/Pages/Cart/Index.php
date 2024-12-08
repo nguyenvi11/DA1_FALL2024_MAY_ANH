@@ -11,8 +11,6 @@ class Index extends BaseView
     {
 
         $is_login = AuthHelper::checkLogin();
-
-
 ?>
 
 

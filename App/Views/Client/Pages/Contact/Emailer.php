@@ -7,6 +7,8 @@ class Emailer extends BaseView
 {
     public static function render($data = null)
     {
+      
+
      
         ?>
         <div class="container mt-5 mb-5">
@@ -17,26 +19,28 @@ class Emailer extends BaseView
         <div class="col-md-6">
         <h1 class="text-center">Gửi Email</h1>
             <div class="card card-body mb-5">
-                <form action="/contact/send" method="post">
-                    <div class="form-group">
-                        <label for="fname">Tên*</label>
-                        <input type="text" class="form-control" name="fname" id="fname" placeholder="Nhập tên...">
-                    </div>
-                    <div class="form-group">
-                        <label for="lname">Họ*</label>
-                        <input type="text" class="form-control" name="lname" id="lname" placeholder="Nhập họ...">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email*</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Nhập email...">
-                    </div>
-                    <div class="form-group mb-5">
-                        <label for="message">Nội dung*</label>
-                        <textarea class="form-control" name="message" id="message" cols="30" rows="5" placeholder="Nhập nội dung..."></textarea>
-                    </div>
-                    <button type="reset" class="btn btn-outline-danger">Nhập lại</button>
-                    <button type="submit" class="btn btn-outline-info">Gửi Email</button>
-                </form>
+                <form action="/send-email" method="post">
+                <input type="hidden" name="method" value="POST">
+            <div class="form-group">
+        <label for="fname">Tên*</label>
+        <input type="text" class="form-control" name="fname" id="fname" placeholder="Nhập tên...">
+    </div>
+    <div class="form-group">
+        <label for="lname">Họ*</label>
+        <input type="text" class="form-control" name="lname" id="lname" placeholder="Nhập họ...">
+    </div>
+    <div class="form-group">
+        <label for="email">Email*</label>
+        <input type="email" class="form-control" name="email" id="email" placeholder="Nhập email...">
+    </div>
+    <div class="form-group mb-5">
+        <label for="message">Nội dung*</label>
+        <textarea class="form-control" name="message" id="message" cols="30" rows="5" placeholder="Nhập nội dung..."></textarea>
+    </div>
+    <button type="reset" class="btn btn-outline-danger">Nhập lại</button>
+    <button type="submit" class="btn btn-outline-info">Gửi Email</button>
+</form>
+
                 <a href="/products" class="btn mt-3 text-warning">Quay lại trang sản phẩm</a>
             </div>
         </div>

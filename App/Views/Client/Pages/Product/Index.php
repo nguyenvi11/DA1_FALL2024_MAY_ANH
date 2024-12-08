@@ -1,9 +1,11 @@
 <?php
 
+
 namespace App\Views\Client\Pages\Product;
 
 use App\Views\BaseView;
 use App\Views\Client\Components\Category;
+use App\Views\Client\Components\PriceFilter;
 
 class Index extends BaseView
 {
@@ -16,6 +18,10 @@ class Index extends BaseView
                     <div class="col-md-3">
                         <?php
                         Category::render($data['categories']);
+
+                        // Check if 'category_id' exists in $data before passing to PriceFilter
+                        $categoryId = isset($data['category_id']) ? $data['category_id'] : null;
+                        PriceFilter::render(['category_id' => $categoryId]);
                         ?>
                     </div>
                     <div class="col-md-9">

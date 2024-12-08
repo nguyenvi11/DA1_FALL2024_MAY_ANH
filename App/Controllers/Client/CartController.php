@@ -4,12 +4,16 @@ namespace App\Controllers\Client;
 
 use App\Helpers\AuthHelper;
 use App\Helpers\NotificationHelper;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use App\Views\Client\Components\Notification;
 use App\Views\Client\Layouts\Footer;
 use App\Views\Client\Layouts\Header;
 use App\Views\Client\Pages\Cart\Checkout;
 use App\Views\Client\Pages\Cart\Index;
+use App\Views\Client\Pages\Cart\ListOrder;
+use App\Views\Client\Pages\Cart\Show;
 
 class CartController
 {
@@ -30,7 +34,7 @@ class CartController
             // echo "<pre>";
             // var_dump($cart_data);
             if (count($cart_data)) {
-                foreach ($cart_data as  $key => $value) {
+                foreach ($cart_data as $key => $value) {
                     $product_id = $value['product_id'];
                     // var_dump($product_id);
                     $result = $product->getOneProduct($product_id);
@@ -38,7 +42,7 @@ class CartController
                     $cart_data[$key]['data'] = $result;
 
                     // var_dump($cart_data);
-                    
+
 
                 }
 
@@ -65,6 +69,7 @@ class CartController
         ob_end_flush();
 
     }
+
     public static function add()
     {
         ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
@@ -111,7 +116,7 @@ class CartController
         $product_data = json_encode($cart_data);
 
         // lưu cookie 
-        setcookie('cart', $product_data, time() +  3600 * 24 * 30 * 12, '/');
+        setcookie('cart', $product_data, time() + 3600 * 24 * 30 * 12, '/');
 
         NotificationHelper::success('cart', 'Đã thêm sản phẩm vào giỏ hàng');
         // sau khi lưu cookie thì phải chuyển trang/ load lại thì mới ăn cookie
@@ -126,6 +131,7 @@ class CartController
         ob_end_flush();
 
     }
+
     public static function update()
     {
         ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
@@ -167,7 +173,7 @@ class CartController
         $product_data = json_encode($cart_data);
 
         // lưu cookie 
-        setcookie('cart', $product_data, time() +  3600 * 24 * 30 * 12, '/');
+        setcookie('cart', $product_data, time() + 3600 * 24 * 30 * 12, '/');
 
         NotificationHelper::success('cart', 'Đã cập nhật số lượng sản phẩm');
 
@@ -176,12 +182,13 @@ class CartController
         ob_end_flush();
 
     }
+
     public static function deleteAll()
     {
         ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
 
         if (isset($_COOKIE['cart'])) {
-            setcookie("cart", "", time() -  3600 * 24 * 30 * 12, '/');
+            setcookie("cart", "", time() - 3600 * 24 * 30 * 12, '/');
         }
         NotificationHelper::success('cart', 'Đã xoá giỏ hàng');
 
@@ -189,6 +196,7 @@ class CartController
         ob_end_flush();
 
     }
+
     public static function deleteItem()
 
     {
@@ -202,7 +210,7 @@ class CartController
                     unset($cart_data[$key]);
                     $product_data = json_encode($cart_data);
 
-                    setcookie("cart", $product_data, time() +  3600 * 24 * 30 * 12, '/');
+                    setcookie("cart", $product_data, time() + 3600 * 24 * 30 * 12, '/');
                 }
             }
             NotificationHelper::success('cart', 'Đã xoá sản phẩm khỏi giỏ hàng');
@@ -212,6 +220,7 @@ class CartController
         ob_end_flush();
 
     }
+
     public static function checkout()
     {
         ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
@@ -228,7 +237,7 @@ class CartController
             // echo "<pre>";
             // var_dump($cart_data);
             if (count($cart_data)) {
-                foreach ($cart_data as  $key => $value) {
+                foreach ($cart_data as $key => $value) {
                     $product_id = $value['product_id'];
                     // var_dump($product_id);
                     $result = $product->getOneProduct($product_id);
@@ -242,8 +251,7 @@ class CartController
                 Header::render();
                 Notification::render();
                 NotificationHelper::unset();
-            Checkout::render($cart_data);
-
+                Checkout::render($cart_data);
                 Footer::render();
             } else {
                 // setcookie("cart", "", time() -  3600 * 24 * 30 * 12, '/');
@@ -264,6 +272,85 @@ class CartController
 
     }
 
+    public static function createOrder()
+    {
+        ob_start(); // Bắt đầu buffer để ngăn các đầu ra không mong muốn
+//        echo "<pre>";
+//        print_r($_GET);
+//         echo "<pre>";
+//         die();
+        $is_login = AuthHelper::checkLogin();
+        if (isset($_COOKIE['cart']) && $is_login) {
+            $product = new Product();
+            $orderModel = new Order();
+
+            $cookie_data = $_COOKIE['cart'];
+            $cart_data = json_decode($cookie_data, true);
+
+            if (count($cart_data)) {
+
+                $order_id = $orderModel->createOrder($_GET['name'], $_GET['phone'], 1, 0, 0, $_SESSION['user']['id'], $_GET['address'] ?? null);
+
+                foreach ($cart_data as $key => $value) {
+                    $product_id = $value['product_id'];
+                    $quantity = $value['quantity'];
+                    $product_info = $product->getOneProduct($product_id);
+                    $product_price = $product_info['price'];
+
+                    $orderModel->createOrderDetail($quantity, $product_price, $product_id, $order_id);
+                }
+
+                NotificationHelper::success('order', 'Đơn hàng của bạn đã được tạo thành công');
+                setcookie('cart', '', time() - 3600, '/');
+
+                header('location: /list-orders');
+            } else {
+                // Nếu giỏ hàng trống
+                NotificationHelper::error('cart', 'Giỏ hàng trống. Vui lòng thêm sản phẩm vào');
+                header('location: /products');
+            }
+        } else {
+            // Nếu chưa đăng nhập
+            NotificationHelper::error('checkout', 'Vui lòng đăng nhập để tạo đơn hàng');
+            header('location: /login');
+        }
+
+        ob_end_flush();
+    }
+
+
+    public static function listOrder()
+    {
+        $orderModel = new Order();
+        $orders = $orderModel->getAllOrdersByUserId($_SESSION['user']['id']);
+//          echo "<pre>";
+//        print_r($orders);
+//         echo "<pre>";
+//         die();
+        Header::render();
+        Notification::render();
+        NotificationHelper::unset();
+        ListOrder::render($orders);
+        Footer::render();
+    }
+
+
+    public static function show($id)
+    {
+        $order = new Order();
+        $data['orderDetail'] = $order->getAllOrderDetailsByUserId($id);
+
+        if ($data['orderDetail']) {
+            Header::render();
+            Notification::render();
+            NotificationHelper::unset();
+            Show::render($data['orderDetail']);
+            Footer::render();
+        } else {
+            NotificationHelper::error('order', 'Không có chi tiết đơn hàng này');
+            header('location: /list-orders');
+        }
+    }
 
 
 }
